@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: BlindDate
+  profiles:
+    default: local
