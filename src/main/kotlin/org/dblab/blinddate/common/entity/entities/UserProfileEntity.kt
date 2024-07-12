@@ -35,11 +35,11 @@ class UserProfileEntity(
     @Column(name = "weight", nullable = false)
     var weight: Int,
 
-    @Column(name="body_type", nullable = false)
+    @Column(name = "body_type", nullable = false)
     @Enumerated(EnumType.STRING)
     var bodyType: BodyTypeEnum,
 
-    @Column(name="education", nullable = false)
+    @Column(name = "education", nullable = false)
     @Enumerated(EnumType.STRING)
     var education: EducationEnum,
 ) : BaseEntity() {
