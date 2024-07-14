@@ -37,6 +37,7 @@ dependencies {
 	implementation("ch.qos.logback.contrib:logback-jackson:0.1.5")
 	implementation("net.logstash.logback:logstash-logback-encoder:6.1")
 	implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.23")
+	implementation("org.glassfish.jaxb:jaxb-runtime:4.0.5")
 
 	// runtimeOnly
 	runtimeOnly("com.h2database:h2:2.2.224")
