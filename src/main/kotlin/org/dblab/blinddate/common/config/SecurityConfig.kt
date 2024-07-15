@@ -1,10 +1,9 @@
 package org.dblab.blinddate.common.config
 
-import org.dblab.blinddate.common.enum.PermissionEnum
-import org.springframework.beans.factory.annotation.Value
 import org.dblab.blinddate.common.filter.JwtFilter
 import org.dblab.blinddate.common.repository.TokenRepository
 import org.dblab.blinddate.common.repository.UserRepository
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -21,16 +20,16 @@ class SecurityConfig(
     private val userRepository: UserRepository,
     private val tokenRepository: TokenRepository,
     @Value("\${secret_key}")
-    private val secretKey: String,
+    private val secretKey: String
 ) {
     @Bean
     protected fun securityFilterChain(
-        http: HttpSecurity,
+        http: HttpSecurity
     ): DefaultSecurityFilterChain? = http
         .httpBasic { it.disable() }
         .csrf { it.disable() }
         .authorizeHttpRequests {
-            it.requestMatchers("/auth/login", "/auth/signup", "/auth/test").permitAll()
+            it.requestMatchers("/auth/login", "/auth/signup", "/auth/test", "/auth/email","/auth").permitAll()
             it.requestMatchers(HttpMethod.PUT, "/auth/token").permitAll()
         }
         .sessionManagement {

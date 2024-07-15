@@ -12,12 +12,12 @@ class JwtUtil {
 
     fun generateToken(
         user: UserEntity,
-        secretKey: String,
+        secretKey: String
     ): String = createAccessToken(user.email, secretKey)
 
     private fun createAccessToken(
         phoneNumber: String,
-        secretKey: String,
+        secretKey: String
     ) = Jwts.builder()
         .subject(phoneNumber)
         .issuedAt(Date(System.currentTimeMillis()))
@@ -26,7 +26,7 @@ class JwtUtil {
         .compact()
 
     fun createRefreshToken(
-        secretKey: String?,
+        secretKey: String?
     ): String = Jwts.builder()
         .issuedAt(Date(System.currentTimeMillis()))
         .expiration(Date(System.currentTimeMillis() + refreshExpiredMs))
@@ -35,7 +35,7 @@ class JwtUtil {
 
     fun isExpired(
         token: String,
-        secretKey: String,
+        secretKey: String
     ) = Jwts
         .parser()
         .verifyWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey)))
@@ -47,7 +47,7 @@ class JwtUtil {
 
     fun getSubject(
         token: String?,
-        secretKey: String?,
+        secretKey: String?
     ): String = Jwts.parser()
         .verifyWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey)))
         .build()

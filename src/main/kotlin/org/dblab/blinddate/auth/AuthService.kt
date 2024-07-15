@@ -1,16 +1,21 @@
 package org.dblab.blinddate.auth
 
 import jakarta.transaction.Transactional
+import org.dblab.blinddate.auth.dto.CertificationDto
 import org.dblab.blinddate.auth.dto.LoginDto
 import org.dblab.blinddate.auth.dto.LoginResponseDto
 import org.dblab.blinddate.auth.dto.SignupDto
+import org.dblab.blinddate.common.entity.entities.CertificationEntity
 import org.dblab.blinddate.common.entity.entities.TokenEntity
 import org.dblab.blinddate.common.entity.entities.UserEntity
 import org.dblab.blinddate.common.errorHandle.CustomException
 import org.dblab.blinddate.common.errorHandle.constant.CommunalResponse
+import org.dblab.blinddate.common.repository.CertificationRepository
 import org.dblab.blinddate.common.repository.TokenRepository
 import org.dblab.blinddate.common.repository.UserRepository
 import org.dblab.blinddate.common.utils.JwtUtil
+import org.dblab.blinddate.common.utils.MailUtil
+import org.dblab.blinddate.common.utils.RandomUtil
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.access.AccessDeniedException
@@ -22,15 +27,18 @@ class AuthService(
     private val userRepository: UserRepository,
     private val encoder: BCryptPasswordEncoder,
     private val tokenRepository: TokenRepository,
+    private val certificationRepository: CertificationRepository,
     @Value("\${secret_key}")
     private val secretKey: String,
+    private val mailUtil: MailUtil
 ) {
     private val jwtUtil = JwtUtil()
+    private val randomUtil = RandomUtil()
     private val log = LoggerFactory.getLogger(AuthService::class.java)
 
     @Transactional
     fun login(
-        loginDto: LoginDto,
+        loginDto: LoginDto
     ): LoginResponseDto {
         val userEntity = userRepository.findByEmail(loginDto.email)
             ?: throw AccessDeniedException("전화번호가 일치하지 않습니다.")
@@ -57,7 +65,7 @@ class AuthService(
 
     @Transactional
     fun signup(
-        signupDto: SignupDto,
+        signupDto: SignupDto
     ) {
         val email = signupDto.email
 
@@ -70,5 +78,48 @@ class AuthService(
         val userEntity = UserEntity(email, passwordEncode, signupDto.name, signupDto.nickName, signupDto.gender)
 
         userRepository.save(userEntity)
+    }
+
+    @Transactional
+    fun sendCode(signupDto: SignupDto) {
+        val userEntity = userRepository.findByEmail(signupDto.email)
+            ?: throw CustomException(CommunalResponse.USER_NOT_FOUND)
+
+        val code = randomUtil.generateRandomCode()
+
+        val certificationEntity = CertificationEntity(userEntity, code)
+
+        certificationRepository.save(certificationEntity)
+
+        mailUtil.sendMail(signupDto.email, code)
+    }
+
+    @Transactional
+    fun certificationEmail(
+        certificationDto: CertificationDto
+    ) {
+        val userEntity = userRepository.findByEmail(certificationDto.email)
+            ?: throw CustomException(CommunalResponse.USER_NOT_FOUND)
+
+        val certificationEntity = certificationRepository.findByUser(userEntity)
+            ?: throw CustomException(CommunalResponse.CODE_NOT_FOUND)
+
+        if (certificationEntity.code != certificationDto.code) {
+            throw CustomException(CommunalResponse.CODE_NOT_CORRECT)
+        }
+
+        userEntity.isActive = true
+
+        userRepository.save(userEntity)
+
+        certificationRepository.delete(certificationEntity)
+    }
+
+    @Transactional
+    fun deleteUser(email: String) {
+        val userEntity = userRepository.findByEmail(email)
+            ?: throw CustomException(CommunalResponse.USER_NOT_FOUND)
+
+        userRepository.delete(userEntity)
     }
 }

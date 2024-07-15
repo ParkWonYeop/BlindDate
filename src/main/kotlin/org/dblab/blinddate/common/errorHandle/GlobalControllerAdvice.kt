@@ -1,4 +1,3 @@
 package org.dblab.blinddate.common.errorHandle
 
-class GlobalControllerAdvice {
-}
+class GlobalControllerAdvice

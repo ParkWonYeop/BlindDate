@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class BlindDateApplication
 
 fun main(args: Array<String>) {
-	runApplication<BlindDateApplication>(*args)
+    runApplication<BlindDateApplication>(*args)
 }

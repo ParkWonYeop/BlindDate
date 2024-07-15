@@ -7,6 +7,6 @@ class SecurityUtil {
         val authentication = SecurityContextHolder.getContext().authentication
             ?: throw RuntimeException("No authentication information.")
         return authentication.name
-            ?:throw RuntimeException("No authentication information.")
+            ?: throw RuntimeException("No authentication information.")
     }
 }

@@ -6,3 +6,4 @@ spring:
     import:
       - classpath:application-db.yml
       - classpath:application-auth.yml
+      - classpath:application-mail.yml

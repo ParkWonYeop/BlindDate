@@ -1,6 +1,5 @@
 package org.dblab.blinddate.common.entity.entities
 
-import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -16,7 +15,7 @@ import org.dblab.blinddate.common.enum.BodyTypeEnum
 import org.dblab.blinddate.common.enum.EducationEnum
 import org.hibernate.annotations.SQLRestriction
 
-@SQLRestriction("deleted_at IS NOT NULL")
+@SQLRestriction("deleted_at IS NULL")
 @Entity(name = "user_profile")
 class UserProfileEntity(
     @Id
@@ -24,7 +23,7 @@ class UserProfileEntity(
     @Column(name = "user_id")
     val id: Long? = null,
 
-    @OneToOne(cascade = [CascadeType.REMOVE])
+    @OneToOne
     @MapsId
     @JoinColumn(name = "user_id", nullable = false)
     var user: UserEntity,
@@ -41,20 +40,20 @@ class UserProfileEntity(
 
     @Column(name = "education", nullable = false)
     @Enumerated(EnumType.STRING)
-    var education: EducationEnum,
+    var education: EducationEnum
 ) : BaseEntity() {
     constructor(
         user: UserEntity,
         height: Int,
         weight: Int,
         bodyType: BodyTypeEnum,
-        education: EducationEnum,
+        education: EducationEnum
     ) : this(
         id = null,
         user = user,
         height = height,
         weight = weight,
         bodyType = bodyType,
-        education = education,
+        education = education
     )
 }

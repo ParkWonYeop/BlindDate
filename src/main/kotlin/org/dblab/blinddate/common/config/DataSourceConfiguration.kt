@@ -1,8 +1,8 @@
 package org.dblab.blinddate.common.config
 
-import org.dblab.blinddate.common.routingDataSource.DataBaseProperty
-import org.dblab.blinddate.common.routingDataSource.RoutingDataSource
 import com.zaxxer.hikari.HikariDataSource
+import org.dblab.blinddate.common.properties.DataBaseProperty
+import org.dblab.blinddate.common.routingDataSource.RoutingDataSource
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -31,7 +31,7 @@ class DataSourceConfiguration(private val dataBaseProperty: DataBaseProperty) {
     @Bean
     fun routingDataSource(
         @Qualifier("writerDataSource") writerDataSource: DataSource,
-        @Qualifier("readerDataSource") readerDataSource: DataSource,
+        @Qualifier("readerDataSource") readerDataSource: DataSource
     ): DataSource {
         val routingDataSource = RoutingDataSource()
 
@@ -50,6 +50,6 @@ class DataSourceConfiguration(private val dataBaseProperty: DataBaseProperty) {
     @Primary
     @Bean("dataSource")
     fun dataSource(
-        @Qualifier("routingDataSource") routingDataSource: DataSource,
+        @Qualifier("routingDataSource") routingDataSource: DataSource
     ) = LazyConnectionDataSourceProxy(routingDataSource)
 }

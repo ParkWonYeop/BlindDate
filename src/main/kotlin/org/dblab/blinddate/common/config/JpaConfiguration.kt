@@ -23,11 +23,11 @@ class JpaConfiguration(
     @Value("\${spring.jpa.hibernate.ddl-auto}")
     private val auto: String,
     @Value("\${spring.datasource.database-name}")
-    private val databaseName: String,
+    private val databaseName: String
 ) {
     @Bean
     fun entityManagerFactory(
-        @Qualifier("dataSource") dataSource: DataSource,
+        @Qualifier("dataSource") dataSource: DataSource
     ): LocalContainerEntityManagerFactoryBean = LocalContainerEntityManagerFactoryBean().apply {
         this.dataSource = dataSource
         setPackagesToScan("org.dblab.blinddate")
@@ -56,7 +56,7 @@ class JpaConfiguration(
     @Bean
     fun transactionManager(
         @Qualifier("entityManagerFactory")
-        entityManagerFactory: LocalContainerEntityManagerFactoryBean,
+        entityManagerFactory: LocalContainerEntityManagerFactoryBean
     ): JpaTransactionManager = JpaTransactionManager().apply {
         this.entityManagerFactory = entityManagerFactory.`object`
     }

@@ -1,4 +1,4 @@
-package org.dblab.blinddate.common.routingDataSource
+package org.dblab.blinddate.common.properties
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
@@ -18,5 +18,5 @@ class DataBaseProperty(
     @Value("\${spring.datasource.reader.hikari.password}")
     val readerPassword: String,
     @Value("\${spring.datasource.driver-class-name}")
-    val driverClassName: String,
+    val driverClassName: String
 )

@@ -15,14 +15,18 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.web.filter.OncePerRequestFilter
 
-class JwtFilter(private val userRepository: UserRepository, private val tokenRepository: TokenRepository, private val secretKey: String) : OncePerRequestFilter() {
+class JwtFilter(
+    private val userRepository: UserRepository,
+    private val tokenRepository: TokenRepository,
+    private val secretKey: String
+) : OncePerRequestFilter() {
     private val log = LoggerFactory.getLogger(JwtFilter::class.java)
     private val jwtUtil = JwtUtil()
 
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        filterChain: FilterChain,
+        filterChain: FilterChain
     ) {
         if (!request.requestURI.contains("/auth")) {
             val authorization = request.getHeader(HttpHeaders.AUTHORIZATION)
@@ -68,9 +72,13 @@ class JwtFilter(private val userRepository: UserRepository, private val tokenRep
 
             MDC.put("email", token)
 
-            val authenticationToken = UsernamePasswordAuthenticationToken(email, null, listOf(
-                SimpleGrantedAuthority("ROLE_" + user.permission.toString())
-            ))
+            val authenticationToken = UsernamePasswordAuthenticationToken(
+                email,
+                null,
+                listOf(
+                    SimpleGrantedAuthority("ROLE_" + user.permission.toString())
+                )
+            )
             authenticationToken.details = WebAuthenticationDetailsSource().buildDetails(request)
             SecurityContextHolder.getContext().authentication = authenticationToken
         }

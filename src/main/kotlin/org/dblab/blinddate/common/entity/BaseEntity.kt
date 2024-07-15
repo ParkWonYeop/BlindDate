@@ -18,7 +18,7 @@ open class BaseEntity(
     var updatedAt: LocalDateTime? = null,
 
     @Column(name = "deleted_at")
-    var deletedAt: LocalDateTime? = null,
+    var deletedAt: LocalDateTime? = null
 ) {
     @PrePersist
     fun prePersist() {
