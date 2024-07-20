@@ -45,3 +45,4 @@ application_log/
 ### Env ###
 application-db.yml
 application-auth.yml
+application-mail.yml

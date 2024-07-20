@@ -40,20 +40,23 @@ class UserProfileEntity(
 
     @Column(name = "education", nullable = false)
     @Enumerated(EnumType.STRING)
-    var education: EducationEnum
+    var education: EducationEnum,
+
+    @Column(name = "is_open", nullable = false)
+    var isOpen: Boolean = false,
 ) : BaseEntity() {
     constructor(
         user: UserEntity,
         height: Int,
         weight: Int,
         bodyType: BodyTypeEnum,
-        education: EducationEnum
+        education: EducationEnum,
     ) : this(
         id = null,
         user = user,
         height = height,
         weight = weight,
         bodyType = bodyType,
-        education = education
+        education = education,
     )
 }

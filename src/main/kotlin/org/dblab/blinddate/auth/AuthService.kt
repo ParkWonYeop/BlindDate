@@ -78,12 +78,6 @@ class AuthService(
         val userEntity = UserEntity(email, passwordEncode, signupDto.name, signupDto.nickName, signupDto.gender)
 
         userRepository.save(userEntity)
-    }
-
-    @Transactional
-    fun sendCode(signupDto: SignupDto) {
-        val userEntity = userRepository.findByEmail(signupDto.email)
-            ?: throw CustomException(CommunalResponse.USER_NOT_FOUND)
 
         val code = randomUtil.generateRandomCode()
 
@@ -113,13 +107,5 @@ class AuthService(
         userRepository.save(userEntity)
 
         certificationRepository.delete(certificationEntity)
-    }
-
-    @Transactional
-    fun deleteUser(email: String) {
-        val userEntity = userRepository.findByEmail(email)
-            ?: throw CustomException(CommunalResponse.USER_NOT_FOUND)
-
-        userRepository.delete(userEntity)
     }
 }
