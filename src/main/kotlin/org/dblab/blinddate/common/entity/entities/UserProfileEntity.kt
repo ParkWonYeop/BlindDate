@@ -13,6 +13,7 @@ import jakarta.persistence.OneToOne
 import org.dblab.blinddate.common.entity.BaseEntity
 import org.dblab.blinddate.common.enum.BodyTypeEnum
 import org.dblab.blinddate.common.enum.EducationEnum
+import org.dblab.blinddate.common.enum.GenderEnum
 import org.hibernate.annotations.SQLRestriction
 
 @SQLRestriction("deleted_at IS NULL")
@@ -27,6 +28,13 @@ class UserProfileEntity(
     @MapsId
     @JoinColumn(name = "user_id", nullable = false)
     var user: UserEntity,
+
+    @Column(name = "gender", nullable = false)
+    @Enumerated(EnumType.STRING)
+    var gender: GenderEnum,
+
+    @Column(name = "age", nullable = false)
+    var age: Int,
 
     @Column(name = "height", nullable = false)
     var height: Int,
@@ -44,19 +52,26 @@ class UserProfileEntity(
 
     @Column(name = "is_open", nullable = false)
     var isOpen: Boolean = false,
+
+    @Column(name = "is_active", nullable = false)
+    var isActive: Boolean = false
 ) : BaseEntity() {
     constructor(
         user: UserEntity,
+        gender: GenderEnum,
+        age: Int,
         height: Int,
         weight: Int,
         bodyType: BodyTypeEnum,
-        education: EducationEnum,
+        education: EducationEnum
     ) : this(
         id = null,
+        gender = gender,
+        age = age,
         user = user,
         height = height,
         weight = weight,
         bodyType = bodyType,
-        education = education,
+        education = education
     )
 }

@@ -29,7 +29,7 @@ class SecurityConfig(
         .httpBasic { it.disable() }
         .csrf { it.disable() }
         .authorizeHttpRequests {
-            it.requestMatchers("/auth/login", "/auth/signup", "/auth/test", "/auth/email","/auth").permitAll()
+            it.requestMatchers("/auth/login", "/auth/signup", "/auth/test", "/auth/email", "/auth").permitAll()
             it.requestMatchers(HttpMethod.PUT, "/auth/token").permitAll()
         }
         .sessionManagement {

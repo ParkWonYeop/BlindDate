@@ -7,6 +7,12 @@ import org.dblab.blinddate.common.enum.EducationEnum
 import org.dblab.blinddate.common.enum.GenderEnum
 
 data class ProfileDto @JsonCreator constructor(
+    @JsonProperty("gender")
+    val gender: GenderEnum,
+
+    @JsonProperty("age")
+    val age: Int,
+
     @JsonProperty("height")
     val height: Int,
 
@@ -17,5 +23,5 @@ data class ProfileDto @JsonCreator constructor(
     val education: EducationEnum,
 
     @JsonProperty("bodyType")
-    val bodyType: BodyTypeEnum,
+    val bodyType: BodyTypeEnum
 )

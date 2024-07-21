@@ -1,38 +1,32 @@
 package org.dblab.blinddate.common.entity.entities
 
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
-import jakarta.persistence.MapsId
-import jakarta.persistence.OneToOne
+import jakarta.persistence.ManyToOne
 import org.dblab.blinddate.common.entity.BaseEntity
 import org.hibernate.annotations.SQLRestriction
 
 @SQLRestriction("deleted_at IS NULL")
-@Entity(name = "user_certification")
-class CertificationEntity(
+@Entity(name = "permit_profile")
+class PermitProfileEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "permit_id")
     val id: Long? = null,
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "user_id", nullable = false)
-    var user: UserEntity,
-
-    @Column(name = "code", nullable = false)
-    var code: String
+    @ManyToOne(cascade = [CascadeType.REMOVE])
+    @JoinColumn(name = "profile_id", nullable = false)
+    var profile: UserProfileEntity
 ) : BaseEntity() {
     constructor(
-        user: UserEntity,
-        code: String
+        profile: UserProfileEntity
     ) : this(
         id = null,
-        user = user,
-        code = code
+        profile = profile
     )
 }

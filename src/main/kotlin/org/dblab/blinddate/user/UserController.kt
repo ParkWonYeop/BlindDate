@@ -26,7 +26,7 @@ class UserController(
     @GetMapping("/profile")
     fun inquiryProfile(
         @RequestParam(value = "email")
-        email: String,
+        email: String
     ) = userService.inquiryProfile(email)
 
     @PutMapping("/profile/open")

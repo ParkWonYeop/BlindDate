@@ -27,7 +27,4 @@ data class SignupDto @JsonCreator constructor(
     @field:NotBlank(message = "빈 문자열 입니다.", groups = [NotBlankGroup::class])
     @JsonProperty("nickName")
     val nickName: String,
-
-    @JsonProperty("gender")
-    val gender: GenderEnum
 )

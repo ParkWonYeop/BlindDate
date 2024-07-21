@@ -75,7 +75,7 @@ class AuthService(
 
         val passwordEncode = encoder.encode(signupDto.password)
 
-        val userEntity = UserEntity(email, passwordEncode, signupDto.name, signupDto.nickName, signupDto.gender)
+        val userEntity = UserEntity(email, passwordEncode, signupDto.name, signupDto.nickName)
 
         userRepository.save(userEntity)
 
