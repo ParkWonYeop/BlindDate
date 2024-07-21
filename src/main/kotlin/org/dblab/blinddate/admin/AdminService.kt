@@ -44,7 +44,7 @@ class AdminService(
             ?:throw CustomException(CommunalResponse.USER_PROFILE_NOT_FOUND)
 
         val permitProfileEntity = permitProfileRepository.findByProfile(profileEntity)
-            ?:throw CustomException(CommunalResponse.PERMIT_REQUEST_NOT_FOUND)\
+            ?:throw CustomException(CommunalResponse.PERMIT_REQUEST_NOT_FOUND)
 
         profileEntity.isActive = true
         profileRepository.save(profileEntity)
